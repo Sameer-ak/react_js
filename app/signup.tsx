@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import React, {useState} from 'react';
+// Signup.tsx
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -9,21 +10,22 @@ import {
   TextInput,
   Button,
 } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
 
-interface LoginScreenProps {
-  onLogin: () => void;
-}
+type SignupScreenProps = StackScreenProps<any, 'signup'>;
 
-const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
+function SignupScreen({ navigation }: SignupScreenProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
-  const handleLogin = () => {
-    // You can implement your login logic here.
+  const handleSignup = () => {
+    // Simulate signup logic for demonstration purposes
     if (email && password) {
-      onLogin(); // Calls the callback provided when the user successfully logs in.
+      // If signup is successful, you can navigate to another screen (e.g., 'index.tsx')
+      navigation.navigate('index');
     } else {
-      alert('Please enter a valid email and password.');
+      setSuccessMessage('Invalid email or password. Please try again.');
     }
   };
 
@@ -31,7 +33,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="white" />
       <View style={styles.content}>
-        <Text style={styles.title}>Login</Text>
+        <Text style={styles.title}>Sign Up</Text>
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -45,11 +47,12 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
           value={password}
           onChangeText={setPassword}
         />
-        <Button title="Log In" onPress={handleLogin} />
+        {successMessage ? <Text style={styles.successMessage}>{successMessage}</Text> : null}
+        <Button title="Sign Up" onPress={handleSignup} />
       </View>
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -72,10 +75,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 16,
   },
+  successMessage: {
+    color: 'green',
+    fontSize: 16,
+    marginBottom: 16,
+  },
 });
 
-export default LoginScreen;
-function alert(_arg0: string) {
-    throw new Error('Function not implemented.');
-}
-
+export default SignupScreen;
